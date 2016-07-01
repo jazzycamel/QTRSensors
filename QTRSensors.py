@@ -17,12 +17,11 @@ except ImportError:
         def output(*args, **kwargs): pass
         def cleanup(): pass
 
-
-QTR_EMITTERS_OFF=0
-QTR_EMITTERS_ON=1
-QTR_EMITTERS_ON_AND_OFF=2
-QTR_NO_EMITTER_PIN=255
-QTR_MAX_SENSORS=16
+QTR_EMITTERS_OFF        = 0
+QTR_EMITTERS_ON         = 1
+QTR_EMITTERS_ON_AND_OFF = 2
+QTR_NO_EMITTER_PIN      = 255
+QTR_MAX_SENSORS         = 16
 
 class QTRSensors(object):
     def __init__(self):
@@ -44,7 +43,7 @@ class QTRSensors(object):
         self._numSensors=len(self._pins)        
         assert self._numSensors<=QTR_MAX_SENSORS
 
-    def _readPrivate(self): raise NotImplementedError # returns []
+    def _readPrivate(self): raise NotImplementedError
 
     def _calibrateOnOrOff(self, readMode):
         cMax=[0]*self._numSensors
