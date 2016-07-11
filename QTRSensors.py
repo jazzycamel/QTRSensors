@@ -1,3 +1,4 @@
+from enum import IntEnum
 import logging
 from time import sleep, time
 
@@ -17,11 +18,12 @@ except ImportError:
         def output(*args, **kwargs): pass
         def cleanup(): pass
 
-QTR_EMITTERS_OFF        = 0
-QTR_EMITTERS_ON         = 1
-QTR_EMITTERS_ON_AND_OFF = 2
-QTR_NO_EMITTER_PIN      = 255
-QTR_MAX_SENSORS         = 16
+class QTR(IntEnum):
+    EMITTERS_OFF        = 0
+    EMITTERS_ON         = 1
+    EMITTERS_ON_AND_OFF = 2
+    NO_EMITTER_PIN      = 255
+    MAX_SENSORS         = 16
 
 class QTRSensors(object):
     def __init__(self):
@@ -41,7 +43,7 @@ class QTRSensors(object):
         self._pins=pins
         self._emitterPin=emitterPin
         self._numSensors=len(self._pins)        
-        assert self._numSensors<=QTR_MAX_SENSORS
+        assert self._numSensors<=QTR.MAX_SENSORS
 
     def _readPrivate(self): raise NotImplementedError
 
@@ -66,15 +68,15 @@ class QTRSensors(object):
 
         return cMin,cMax
 
-    def read(self, readMode=QTR_EMITTERS_ON):
-        if readMode in (QTR_EMITTERS_ON, QTR_EMITTERS_ON_AND_OFF):
+    def read(self, readMode=QTR.EMITTERS_ON):
+        if readMode in (QTR.EMITTERS_ON, QTR.EMITTERS_ON_AND_OFF):
             self.emittersOn()
         else: self.emittersOff()
 
         sensorValues=self.readPrivate()
         self.emittersOff()
 
-        if readMode==QTR_EMITTERS_ON_AND_OFF:
+        if readMode==QTR.EMITTERS_ON_AND_OFF:
             offValues=self.readPrivate()
             for i in range(self._numSensors):
                 sensorValues[i]=self._maxValue-offValues[i]
@@ -82,24 +84,24 @@ class QTRSensors(object):
         return sensorValues
 
     def emittersOff(self):
-        if self._emitterPin==QTR_NO_EMITTER_PIN: return
+        if self._emitterPin==QTR.NO_EMITTER_PIN: return
 
         IO.setup(self._emitterPin, IO.OUT)
         IO.output(self._emitterPin, IO.LOW)
         sleep(200./10e6) # 200 microseconds
 
     def emittersOn(self):
-        if self._emitterPin==QTR_NO_EMITTER_PIN: return
+        if self._emitterPin==QTR.NO_EMITTER_PIN: return
 
         IO.setup(self._emitterPin, IO.OUT)
         IO.output(self._emitterPin, IO.HIGH)
         sleep(200/10e6) # 200 microseconds
 
-    def calibrate(self, readMode=QTR_EMITTERS_ON):
-        if readMode in (QTR_EMITTERS_ON,QTR_EMITTERS_ON_AND_OFF):
-            self._calibratedMinimumOn, self._calibratedMaximumOn=self._calibrateOnOrOff(QTR_EMITTERS_ON)
-        if readMode in (QTR_EMITTERS_OFF,QTR_EMITTERS_ON_AND_OFF):
-            self._calibratedMinimumOff, self._calibratedMaximumOff=self._calibrateOnOrOff(QTR_EMITTERS_OFF)
+    def calibrate(self, readMode=QTR.EMITTERS_ON):
+        if readMode in (QTR.EMITTERS_ON,QTR.EMITTERS_ON_AND_OFF):
+            self._calibratedMinimumOn, self._calibratedMaximumOn=self._calibrateOnOrOff(QTR.EMITTERS_ON)
+        if readMode in (QTR.EMITTERS_OFF,QTR.EMITTERS_ON_AND_OFF):
+            self._calibratedMinimumOff, self._calibratedMaximumOff=self._calibrateOnOrOff(QTR.EMITTERS_OFF)
         self._calibrated=True
 
     def resetCalibration(self):
@@ -109,18 +111,18 @@ class QTRSensors(object):
             self.calibratedMaximumOn[i]=0
             self.calibratedMaximumOff[i]=0
 
-    def readCalibrated(self, readMode=QTR_EMITTERS_ON):
+    def readCalibrated(self, readMode=QTR.EMITTERS_ON):
         if not self._calibrated: return
 
         sensorValues=self.read(readMode)
         for i in range(self._numSensors):
-            if readMode==QTR_EMITTERS_ON:
+            if readMode==QTR.EMITTERS_ON:
                 calMax=self._calibratedMaximumOn[i]
                 calMin=self._calibratedMinimumOn[i]
-            elif readMode==QTR_EMITTERS_OFF:
+            elif readMode==QTR.EMITTERS_OFF:
                 calMax=self._calibratedMaximumOff[i]
                 calMin=self._calibratedMinimumOff[i]
-            else: # QTR_EMITTERS_ON_AND_OFF
+            else: # QTR.EMITTERS_ON_AND_OFF
                 if self._calibratedMinimumOff[i]<self._calibratedMinimumOn: calMin=self._maxValue
                 else: calMin=self._calibratedMinimumOn[i]+self._maxValue-self._calibratedMinimumOff[i]
 
@@ -137,7 +139,7 @@ class QTRSensors(object):
 
         return sensorValues
 
-    def readLine(self, readMode=QTR_EMITTERS_ON, whiteLine=0):
+    def readLine(self, readMode=QTR.EMITTERS_ON, whiteLine=0):
         sensorValues=self.readCalibrated(readMode)
         _avg=_sum=_online=0
 
@@ -157,8 +159,8 @@ class QTRSensors(object):
 
         return self._lastValue, sensorValues
 
-class QTSensorsRC(QTRSensors):
-    def __init__(self, pins, timeout=4000, emitterPin=QTR_NO_EMITTER_PIN):
+class QTRSensorsRC(QTRSensors):
+    def __init__(self, pins, timeout=4000, emitterPin=QTR.NO_EMITTER_PIN):
         super().__init__()
 
         self.init(pins, timeout, emitterPin)
@@ -197,7 +199,7 @@ if __name__=="__main__":
         print("Cleanup", flush=True)
         IO.cleanup()
 
-    qtrrc=QTSensorsRC([1,2,3,4,5,6,7,8], timeout=2500, emitterPin=9)
+    qtrrc=QTRSensorsRC([1,2,3,4,5,6,7,8], timeout=2500, emitterPin=9)
 
     print("Calibrating", end="")
     for i in range(400):
