@@ -29,17 +29,13 @@ public:
     }
 };
 
-BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
-    calibrate_overloads, QTRSensorsRC::calibrate, 0, 1
-)
-
 BOOST_PYTHON_MODULE(RPiQTRSensors){
     class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", no_init)
         .def("__init__", make_constructor(WrapperFuncs::init))
 
         // 'Normal' methods
-        .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads())
+        .def("calibrate", &QTRSensorsRC::calibrate)
         .def("emittersOff", &QTRSensorsRC::emittersOff)
         .def("emittersOn", &QTRSensorsRC::emittersOn)
         .def("resetCalibration", &QTRSensorsRC::resetCalibration)
