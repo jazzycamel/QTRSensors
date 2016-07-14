@@ -5,7 +5,7 @@ QTRSensors::QTRSensors(){
 	_time=new RPiTime;
 	_io=new RPiGPIO;
 	if(!_io->init())
-        print("Failed to initialise GPIO!");
+            printf("Failed to initialise GPIO!\n");
 }
 
 QTRSensors::~QTRSensors(){
@@ -246,16 +246,16 @@ void QTRSensorsRC::readPrivate(unsigned int *sensor_values){
 
     for(i=0; i<_numSensors; i++){
         sensor_values[i]=_maxValue;
-        _io->digitalWrite(_pins[i], HIGH);   // make sensor line an output
         _io->pinMode(_pins[i], OUTPUT);      // drive sensor line high
+        _io->digitalWrite(_pins[i], HIGH);   // make sensor line an output
     }
 
     _time->delayMicroseconds(10);              // charge lines for 10 us
 
     for(i=0; i<_numSensors; i++)
     {
-        _io->pinMode(_pins[i], INPUT);       // make sensor line an input
         _io->digitalWrite(_pins[i], LOW);        // important: disable internal pull-up!
+        _io->pinMode(_pins[i], INPUT);       // make sensor line an input
     }
 
     unsigned long startTime=_time->micros();

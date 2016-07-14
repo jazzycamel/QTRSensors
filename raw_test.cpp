@@ -1,7 +1,7 @@
 #include "RPiQTRSensors.h"
 
-#define NUM_SENSORS 8
-#define TIMEOUT 2500
+#define NUM_SENSORS 1
+#define TIMEOUT 4000
 #define EMITTER_PIN 17
 
 QTRSensorsRC qtrrc((unsigned char[]){},
