@@ -1,4 +1,4 @@
-#include <wiringPi.h
+#include <wiringPi.h>
 #include <stdlib.h>
 #include "QTRSensors.h"
 
@@ -349,66 +349,6 @@ void QTRSensorsRC::readPrivate(unsigned int *sensor_values)
                 sensor_values[i] = time;
         }
     }
-}
-
-
-
-// Derived Analog class constructors
-QTRSensorsAnalog::QTRSensorsAnalog()
-{
-    calibratedMinimumOn = 0;
-    calibratedMaximumOn = 0;
-    calibratedMinimumOff = 0;
-    calibratedMaximumOff = 0;
-    _pins = 0;
-}
-
-QTRSensorsAnalog::QTRSensorsAnalog(unsigned char* pins,
-  unsigned char numSensors, unsigned char numSamplesPerSensor,
-  unsigned char emitterPin)
-{
-    calibratedMinimumOn = 0;
-    calibratedMaximumOn = 0;
-    calibratedMinimumOff = 0;
-    calibratedMaximumOff = 0;
-    _pins = 0;
-
-    init(pins, numSensors, numSamplesPerSensor, emitterPin);
-}
-
-void QTRSensorsAnalog::init(unsigned char* pins,
-    unsigned char numSensors, unsigned char numSamplesPerSensor,
-    unsigned char emitterPin)
-{
-    QTRSensors::init(pins, numSensors, emitterPin);
-
-    _numSamplesPerSensor = numSamplesPerSensor;
-    _maxValue = 1023; // this is the maximum returned by the A/D conversion
-}
-
-void QTRSensorsAnalog::readPrivate(unsigned int *sensor_values)
-{
-    unsigned char i, j;
-
-    if (_pins == 0)
-        return;
-
-    // reset the values
-    for(i = 0; i < _numSensors; i++)
-        sensor_values[i] = 0;
-
-    for (j = 0; j < _numSamplesPerSensor; j++)
-    {
-        for (i = 0; i < _numSensors; i++)
-        {
-            sensor_values[i] += analogRead(_pins[i]);   // add the conversion result
-        }
-    }
-
-    // get the rounded average of the readings for each sensor
-    for (i = 0; i < _numSensors; i++)
-        sensor_values[i] = (sensor_values[i] + (_numSamplesPerSensor >> 1)) /
-            _numSamplesPerSensor;
 }
 
 // the destructor frees up allocated memory
