@@ -5,7 +5,7 @@ qtrrc=QTRSensorsRC([1,2,3,4,5,12,13,6], 2500, 0)
 sleep(.5)
 print("Calibrating")
 for i in range(400):
-    qtrrc.calibrate(1)
+    qtrrc.calibrate()
 print("Finished")
 
 sv=[0]*8

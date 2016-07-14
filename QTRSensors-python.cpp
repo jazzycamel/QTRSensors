@@ -31,12 +31,17 @@ public:
     }
 };
 
+BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
+  calibrate_overloads, QTRSensors::calibrate, 0, 1
+)
+
 BOOST_PYTHON_MODULE(QTRSensors){
     class_<QTRSensors>
         ("QTRSensors", no_init)
 
         // 'Normal' methods
-        .def("calibrate", &QTRSensors::calibrate)
+        //.def("calibrate", &QTRSensors::calibrate)
+        .def("calibrate", &QTRSensors::calibrate, calibrate_overloads())
         .def("emittersOff", &QTRSensors::emittersOff)
         .def("emittersOn", &QTRSensors::emittersOn)
         .def("resetCalibration", &QTRSensors::resetCalibration)
