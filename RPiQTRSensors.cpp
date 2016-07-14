@@ -4,7 +4,8 @@
 QTRSensors::QTRSensors(){
 	_time=new RPiTime;
 	_io=new RPiGPIO;
-	_io->init();
+	if(!_io->init())
+        print("Failed to initialise GPIO!");
 }
 
 QTRSensors::~QTRSensors(){
