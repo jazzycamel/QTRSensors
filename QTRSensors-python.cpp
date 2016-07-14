@@ -2,7 +2,7 @@
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 using namespace boost::python;
 
-#include "RPiQTRSensors.h"
+#include "QTRSensors.h"
 
 class WrapperFuncs{
 public:
@@ -29,7 +29,7 @@ public:
     }
 };
 
-BOOST_PYTHON_MODULE(RPiQTRSensors){
+BOOST_PYTHON_MODULE(QTRSensors){
     class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", no_init)
         .def("__init__", make_constructor(WrapperFuncs::init))
