@@ -3,11 +3,13 @@
 using namespace boost::python;
 
 #include "QTRSensors.h"
+#include <wiringPi.h>
 
 class WrapperFuncs{
 public:
     static boost::shared_ptr<QTRSensorsRC> init(
-        list _pins, unsigned int timeout, unsigned char emitterPin){
+	        list _pins, unsigned int timeout, unsigned char emitterPin){
+        wiringPiSetup();
         unsigned char __pins[QTRSensors::QTR_MAX_SENSORS];
         for(int i=0; i<len(_pins); i++)
             __pins[i]=extract<int>(_pins[i]);
@@ -30,15 +32,19 @@ public:
 };
 
 BOOST_PYTHON_MODULE(QTRSensors){
-    class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
-        ("QTRSensorsRC", no_init)
-        .def("__init__", make_constructor(WrapperFuncs::init))
+    class_<QTRSensors>
+        ("QTRSensors", no_init)
 
         // 'Normal' methods
-        .def("calibrate", &QTRSensorsRC::calibrate)
-        .def("emittersOff", &QTRSensorsRC::emittersOff)
-        .def("emittersOn", &QTRSensorsRC::emittersOn)
-        .def("resetCalibration", &QTRSensorsRC::resetCalibration)
+        .def("calibrate", &QTRSensors::calibrate)
+        .def("emittersOff", &QTRSensors::emittersOff)
+        .def("emittersOn", &QTRSensors::emittersOn)
+        .def("resetCalibration", &QTRSensors::resetCalibration)
+    ;
+
+    class_<QTRSensorsRC, bases<QTRSensors>, boost::shared_ptr<QTRSensorsRC> >
+        ("QTRSensorsRC", no_init)
+        .def("__init__", make_constructor(WrapperFuncs::init))
 
         // Wrapped methods
         .def("readLine", &WrapperFuncs::readLine)

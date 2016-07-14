@@ -1,15 +1,16 @@
 #!/bin/bash -e
-#echo "Compile C++ module"
-#g++ -c QTRSensors.cpp
+echo "Compile C++ module"
+g++ -c QTRSensors.cpp
 
-#echo "Compile C++ test"
-#g++ -c qtrrc_test.cpp
+echo "Compile C++ test"
+g++ -c qtrrc_test.cpp
 
-#echo "Link C++ test"
-#g++ -o qtrrc_test qtrrc_test.o QTRSensors.o -lwiringPi
+echo "Link C++ test"
+g++ -o qtrrc_test qtrrc_test.o QTRSensors.o -lwiringPi
 
-#echo "Compile python module..."
-#g++ -c -O3 QTRSensors-python.cpp -I/usr/include/python2.7 -I/usr/include -fPIC
+echo "Compile python module..."
+g++ -c -O3 QTRSensors-python.cpp -I/usr/include/python2.7 -I/usr/include -fPIC
+
 echo "Link python module..."
 g++ -shared -Wl,--export-dynamic \
 	QTRSensors.o QTRSensors-python.o \

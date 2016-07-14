@@ -37,7 +37,7 @@ class QTRSensors {
     int _lastValue;
 
   private:
-    virtual void readPrivate(unsigned int *sensor_values)=0;
+    virtual void readPrivate(unsigned int *sensor_values){};
     void calibrateOnOrOff(unsigned int **calibratedMinimum,
                           unsigned int **calibratedMaximum,
                           unsigned char readMode);
