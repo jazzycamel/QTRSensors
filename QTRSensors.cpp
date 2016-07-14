@@ -85,12 +85,12 @@ void QTRSensors::calibrateOnOrOff(unsigned int **calibratedMinimum, unsigned int
 
         // Initialize the max and min calibrated values to values that
         // will cause the first reading to update them.
-        for(i=0;i<_numSensors;i++) (*calibratedMaximum)[i]=0;
+        for(int i=0;i<_numSensors;i++) (*calibratedMaximum)[i]=0;
     }
     if(*calibratedMinimum==0){
         *calibratedMinimum=(unsigned int*)malloc(sizeof(unsigned int)*_numSensors);
         if(*calibratedMinimum==0) return;
-        for(i=0;i<_numSensors;i++) (*calibratedMinimum)[i]=_maxValue;
+        for(int i=0;i<_numSensors;i++) (*calibratedMinimum)[i]=_maxValue;
     }
 
     for(int j=0;j<10;j++){
@@ -234,7 +234,7 @@ void QTRSensorsRC::readPrivate(unsigned int *sensor_values){
     unsigned long startTime=micros();
     while (micros()-startTime<_maxValue){
         unsigned int time=micros()-startTime;
-        for (i=0; i<_numSensors; i++){
+        for (unsigned int i=0; i<_numSensors; i++){
             if (digitalRead(_pins[i])==LOW && time<sensor_values[i])
                 sensor_values[i]=time;
         }

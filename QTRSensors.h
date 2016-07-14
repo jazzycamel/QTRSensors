@@ -4,11 +4,11 @@
 class QTRSensors {
   public:
     enum {
-      QTR_EMITTERS_OFF=0
-      QTR_EMITTERS_ON=1
-      QTR_EMITTERS_ON_AND_OFF=2
-      QTR_NO_EMITTER_PIN=255
-      QTR_MAX_SENSORS=16
+      QTR_EMITTERS_OFF=0,
+      QTR_EMITTERS_ON=1,
+      QTR_EMITTERS_ON_AND_OFF=2,
+      QTR_NO_EMITTER_PIN=255,
+      QTR_MAX_SENSORS=16,
     };
 
     void read(unsigned int *sensor_values, unsigned char readMode=QTR_EMITTERS_ON);
