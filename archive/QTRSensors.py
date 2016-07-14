@@ -4,6 +4,7 @@ from time import sleep, time
 
 try:
     import RPi.GPIO as IO
+    IO.setmode(IO.BCM)
 except ImportError:
     logging.warning("RPi.GPIO not installed, using stub instead.")
 
@@ -186,7 +187,7 @@ class QTRSensorsRC(QTRSensors):
         while t<self._maxValue:
             t=(time()-startTime)*10e6
             for i in range(self._numSensors):
-                if IO.input(self._pins)==IO.LOW and t<sensorValues[i]:
+                if IO.input(self._pins[i])==IO.LOW and t<sensorValues[i]:
                     sensorValues[i]=t
 
         return sensorValues
@@ -199,11 +200,13 @@ if __name__=="__main__":
         print("Cleanup", flush=True)
         IO.cleanup()
 
-    qtrrc=QTRSensorsRC([1,2,3,4,5,6,7,8], timeout=2500, emitterPin=9)
-
-    print("Calibrating", end="")
-    for i in range(400):
-        if i%8==0: print('.',end="", flush=True)
-        qtrrc.calibrate()
-    print()
-    print("readLine:",qtrrc.readLine())
+    qtrrc=QTRSensorsRC([18,21,22,23,24,10,9,25], timeout=2500, emitterPin=17)
+    while 1:    
+        print(qtrrc.read())
+        sleep(1)
+    #print("Calibrating", end="")
+    #for i in range(400):
+    #    if i%8==0: print('.',end="", flush=True)
+    #    qtrrc.calibrate()
+    #print()
+    #print("readLine:",qtrrc.readLine())
