@@ -30,7 +30,7 @@ public:
         return result;
     }
 
-    static void read(QTRSensorsRC &qtrrc, list sensorValues, unsigned char readMode=QTR_EMITTERS_ON){
+    static void read(QTRSensorsRC &qtrrc, list sensorValues, unsigned char readMode=QTRSensors::QTR_EMITTERS_ON){
         unsigned int _sv[QTRSensors::QTR_MAX_SENSORS];
         for(int i=0; i<len(sensorValues); i++)
             _sv[i]=extract<unsigned int>(sensorValues[i]);
@@ -41,7 +41,7 @@ public:
             sensorValues[i]=_sv[i];
     }
 
-    static void readCalibrated(QTRSensorsRC &qtrrc, list sensorValues, unsigned char readMode=QTR_EMITTERS_ON){
+    static void readCalibrated(QTRSensorsRC &qtrrc, list sensorValues, unsigned char readMode=QTRSensors::QTR_EMITTERS_ON){
         unsigned int _sv[QTRSensors::QTR_MAX_SENSORS];
         for(int i=0; i<len(sensorValues); i++)
             _sv[i]=extract<unsigned int>(sensorValues[i]);
@@ -55,14 +55,6 @@ public:
 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
     calibrate_overloads, QTRSensors::calibrate, 0, 1
-)
-
-BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
-    read_overloads, WrapperFuncs::read, 1, 2
-)
-
-BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
-    readCalibrated_overloads, WrapperFuncs::readCalibrated, 1, 2
 )
 
 BOOST_PYTHON_MODULE(QTRSensors){
@@ -81,8 +73,8 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("__init__", make_constructor(WrapperFuncs::init))
 
         // Wrapped methods
-        .def("read", &WrapperFuncs::read, read_overloads())
-        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())        
+        .def("read", &WrapperFuncs::read)
+        .def("readCalibrated", &WrapperFuncs::readCalibrated)        
         .def("readLine", &WrapperFuncs::readLine)
     ;
 }
