@@ -8,7 +8,7 @@ class WrapperFuncs{
 public:
     static boost::shared_ptr<QTRSensorsRC> init(
         list _pins, unsigned int timeout, unsigned char emitterPin){
-        unsigned char __pins[QTRSensors::MAX_SENSORS];
+        unsigned char __pins[QTRSensors::QTR_MAX_SENSORS];
         for(int i=0; i<len(_pins); i++)
             __pins[i]=extract<int>(_pins[i]);
         return boost::shared_ptr<QTRSensorsRC>(
@@ -17,7 +17,7 @@ public:
     }
 
     static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues){
-        unsigned int _sv[QTRSensors::MAX_SENSORS];
+        unsigned int _sv[QTRSensors::QTR_MAX_SENSORS];
         for(int i=0; i<len(sensorValues); i++)
             _sv[i]=extract<unsigned int>(sensorValues[i]);
 
