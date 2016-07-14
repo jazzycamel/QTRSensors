@@ -4,7 +4,7 @@
 QTRSensors::QTRSensors(){
 	_time=new RPiTime;
 	_io=new RPiGPIO;
-	//_io->init();
+	_io->init();
 }
 
 QTRSensors::~QTRSensors(){

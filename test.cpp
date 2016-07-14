@@ -23,11 +23,10 @@ int main(int argc, char *argv[]){
 
 	RPiGPIO io;
 	io.init();
-	io.pinMode(4, RPiGPIO::OUT);
-	io.digitalWrite(4, RPiGPIO::HIGH);
-	io.digitalWrite(4, RPiGPIO::LOW);
-	io.pinMode(4, RPiGPIO::IN);
-	printf("GPIO4: %d\n", io.digitalRead(4));
-
+	io.pinMode(17, RPiGPIO::OUT);
+	//io.digitalWrite(17, RPiGPIO::HIGH);
+	io.digitalWrite(17, RPiGPIO::LOW);
+	//io.pinMode(17, RPiGPIO::IN);
+	//printf("GPIO4: %d\n", io.digitalRead(4));
 	return 0;
 }
