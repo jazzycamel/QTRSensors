@@ -1,7 +1,7 @@
 #include "RPiGPIO.h"
 #include "RPiTime.h"
 
-int main(int argc, char *argv[]){}
+int main(int argc, char *argv[]){
 	RPiTime t;
 	RPiGPIO io;
 	io.init();

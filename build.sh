@@ -15,6 +15,7 @@ g++ -c -O3 RPiGPIO.cpp $CFLAGS
 g++ -c -O3 RPiTime.cpp $CFLAGS
 echo "Link simple test"
 g++ -O3 test.o RPi.o RPiGPIO.o RPiTime.o -o test
+exit
 
 echo "Compile C++ raw test"
 g++ -c -O3 raw_test.cpp $CFLAGS
