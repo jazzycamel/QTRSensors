@@ -4,9 +4,14 @@
 
 int main(int argc, char *argv[]){
 	RPiTime t;
-	
+
+        if(map_peripheral(&gpio)==-1){
+            printf("Failed to map registers!\n");
+            return -1;
+        }
+
 	INP_GPIO(17);
-	t.delay(1000)
+	t.delay(1000);
 	while(1){
 		printf("GPIO17: %d\n", GPIO_READ(17));
 		t.delay(1000);
