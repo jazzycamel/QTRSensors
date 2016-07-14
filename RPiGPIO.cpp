@@ -35,5 +35,6 @@ void RPiGPIO::digitalWrite(int pin, int value){
 
 int RPiGPIO::digitalRead(int pin){
 	if(!_ready) return LOW;
-	return GPIO_READ(pin)==0 ? LOW : HIGH;
+        int value=GPIO_READ(pin);
+        return value==0 ? LOW : HIGH;
 }
