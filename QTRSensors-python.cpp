@@ -57,7 +57,7 @@ public:
         list values;
         for(unsigned char i=0; i<qtrrc.numSensors(); i++)
             values.append(qtrrc.calibratedMinimumOn[i]);
-        return values
+        return values;
     }
 };
 
