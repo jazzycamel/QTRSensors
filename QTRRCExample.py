@@ -1,3 +1,4 @@
+# -*- coding: latin-1 -*-
 from __future__ import print_function
 from sys import stdout
 from time import sleep
@@ -32,9 +33,9 @@ if __name__=="__main__":
 	    print(v,end='\t')
 	print()
 	
-	sv=[0]*8 # List to receive the sensor values
+	#sv=[0]*8 # List to receive the sensor values
 	while(1):
 		# read calibrated sensor values and obtain a measure of the line position from 0 to 7000	
-	    pos=qtrrc.readLine(sv)
+	    pos,sv=qtrrc.readLine()
 	    print(sv,pos)
 	    sleep(1)
