@@ -100,8 +100,8 @@ BOOST_PYTHON_FUNCTION_OVERLOADS(
     readLine_overloads, WrapperFuncs::readLine, 2, 4
 )
 
-const char* classDocStr=""
-    "QTRSensors - Library for using Pololu QTR reflectance\n"
+const char *classDocStr=""
+    "This library is for using Pololu QTR reflectance\n"
     "sensors and reflectance sensor arrays: QTR-1RC and\n"
     "QTR-8RC. Simply specify in the constructor which\n"
     "Raspberry Pi pins are connected to a QTR sensor, and the read() method\n"
@@ -111,7 +111,7 @@ const char* classDocStr=""
     "* QTRSensorsRC should be used for QTR-1RC and QTR-8RC sensors.\n"
 ;
 
-const char * initDocStr=""
+const char *initDocStr=""
     "The list 'pins' contains the Raspberry Pi pin number for each sensor.\n"
     "This library uses the pin number convention defined by WiringPi which \n"
     "can be found at http://wiringpi.com/pins/.\n\n"
@@ -132,13 +132,22 @@ const char * initDocStr=""
     "use an I/O pin to control it, use a value of 255 (QTR_NO_EMITTER_PIN).\n"
 ;
 
+const char *calibrateDocStr=""
+    "Reads the sensors for calibration.  The sensor values are\n"
+    "not returned; instead, the maximum and minimum values found\n"
+    "over time are stored internally and used for the\n"
+    "readCalibrated() method.\n"
+;
+
 BOOST_PYTHON_MODULE(QTRSensors){
     scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", classDocStr, no_init)
-        .def("__init__", make_constructor(WrapperFuncs::init), initDocStr)
+        .def("__init__", make_constructor(WrapperFuncs::init), initDocStr,
+                args("self", "_pins", "timeout", "emitterPin"))
 
         // 'Normal' methods
-        .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads())
+        .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads(calibrateDocStr),
+                (arg("readMode")=QTRSensorsRC::QTR_EMITTERS_ON))
         .def("emittersOff", &QTRSensorsRC::emittersOff)
         .def("emittersOn", &QTRSensorsRC::emittersOn)
         .def("resetCalibration", &QTRSensorsRC::resetCalibration)
