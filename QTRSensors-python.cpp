@@ -71,7 +71,7 @@ BOOST_PYTHON_FUNCTION_OVERLOADS(
 )
 
 BOOST_PYTHON_MODULE(QTRSensors){
-    class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
+    scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", no_init)
         .def("__init__", make_constructor(WrapperFuncs::init))
 
