@@ -25,7 +25,6 @@ public:
         list sensorValues;
         for(int i=0; i<qtrrc.numSensors(); i++)
             sensorValues.append(_sv[i]);
-
         return make_tuple(position, sensorValues);
 
     }
@@ -37,7 +36,6 @@ public:
         list sensorValues;
         for(int i=0; i<qtrrc.numSensors(); i++)
             sensorValues.append(_sv[i]);
-
         return sensorValues;
     }
 
@@ -48,7 +46,6 @@ public:
         list sensorValues;
         for(int i=0; i<qtrrc.numSensors(); i++)
             sensorValues.append(_sv[i]);
-
         return sensorValues;
     }
 

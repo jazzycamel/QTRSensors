@@ -33,7 +33,6 @@ if __name__=="__main__":
 	    print(v,end='\t')
 	print()
 	
-	#sv=[0]*8 # List to receive the sensor values
 	while(1):
 		# read calibrated sensor values and obtain a measure of the line position from 0 to 7000	
 	    pos,sv=qtrrc.readLine()
