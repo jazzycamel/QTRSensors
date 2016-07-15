@@ -18,17 +18,28 @@ public:
         );
     }
 
-    static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues,
-            unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON, unsigned char white_line=0){
+    // static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues,
+    //         unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON, unsigned char white_line=0){
+    //     unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
+    //     for(int i=0; i<len(sensorValues); i++)
+    //         _sv[i]=extract<unsigned int>(sensorValues[i]);
+
+    //     int result=qtrrc.readLine(_sv, readMode, white_line);
+
+    //     for(int i=0; i<len(sensorValues); i++)
+    //         sensorValues[i]=_sv[i];
+    //     return result;
+    // }
+    static tuple readLine(QTRSensorsRC &qtrrc, unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON, unsigned char white_line=0){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
-        for(int i=0; i<len(sensorValues); i++)
-            _sv[i]=extract<unsigned int>(sensorValues[i]);
+        int position=qtrrc.readLine(_sv, readMode, white_line);
 
-        int result=qtrrc.readLine(_sv, readMode, white_line);
+        list sensorValues;
+        for(int i=0; i<qtrrc.numSensors(); i++)
+            sensorValues.append(_sv[i]);
 
-        for(int i=0; i<len(sensorValues); i++)
-            sensorValues[i]=_sv[i];
-        return result;
+        return make_tuple(position, sensorValues);
+
     }
 
     static void read(QTRSensorsRC &qtrrc, list sensorValues,
@@ -97,7 +108,7 @@ BOOST_PYTHON_FUNCTION_OVERLOADS(
 )
 
 BOOST_PYTHON_FUNCTION_OVERLOADS(
-    readLine_overloads, WrapperFuncs::readLine, 2, 4
+    readLine_overloads, WrapperFuncs::readLine, 1, 3 
 )
 
 const char *classDocStr=""
@@ -242,7 +253,8 @@ BOOST_PYTHON_MODULE(QTRSensors){
         // Wrapped methods
         .def("read", &WrapperFuncs::read, read_overloads((arg("sensorValues"),arg("readMode")=1), readDocStr))
         .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads((arg("sensorValues"),arg("readMode")=1), readCalibratedDocStr))
-        .def("readLine", &WrapperFuncs::readLine, readLine_overloads((arg("sensorValues"),arg("readMode")=1,arg("white_line")=0), readLineDocStr))
+        //.def("readLine", &WrapperFuncs::readLine, readLine_overloads((arg("sensorValues"),arg("readMode")=1,arg("white_line")=0), readLineDocStr))
+        .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
 
         // Getter Methods (wrap exposed array pointers)
         .def("calibratedMinimumOn", &WrapperFuncs::calibratedMinimumOn, calibratedMinimumDocStr)
