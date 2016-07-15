@@ -52,6 +52,13 @@ public:
         for(int i=0; i<len(sensorValues); i++)
             sensorValues[i]=_sv[i];
     }
+
+    static list calibratedMinimumOn(QTRSensorsRC& qtrrc){
+        list values;
+        for(int i=0; i<qtrrc._numSensors; i++)
+            list.append(qtrrc.calibratedMinimumOn[i]);
+        return result
+    }
 };
 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
@@ -85,6 +92,9 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("read", &WrapperFuncs::read, read_overloads())
         .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())        
         .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
+
+        //
+        .def("calibratedMinimumOn", &WrapperFuncs::calibratedMinimumOn)
     ;
 
     enum_<QTRSensorsRC::QTR>
