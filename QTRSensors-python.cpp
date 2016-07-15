@@ -50,7 +50,7 @@ public:
 
         for(int i=0; i<len(sensorValues); i++)
             sensorValues[i]=_sv[i];
-    }    
+    }
 };
 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
@@ -70,7 +70,6 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("emittersOff", &QTRSensorsRC::emittersOff)
         .def("emittersOn", &QTRSensorsRC::emittersOn)
         .def("resetCalibration", &QTRSensorsRC::resetCalibration)
-    ;
 
     //class_<QTRSensorsRC, bases<QTRSensors>, boost::shared_ptr<QTRSensorsRC> >
     //    ("QTRSensorsRC", no_init)
