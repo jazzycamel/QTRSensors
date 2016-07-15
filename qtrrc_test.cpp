@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
   wiringPiSetup();
 
   unsigned char pins[]={1,2,3,4,5,12,13,6};
-  QTRSensors qtrrc(pins, NUM_SENSORS, TIMEOUT, EMITTER_PIN);
+  QTRSensorsRC qtrrc(pins, NUM_SENSORS, TIMEOUT, EMITTER_PIN);
   unsigned int sensorValues[NUM_SENSORS];
 
   // Setup
