@@ -19,7 +19,7 @@ public:
     }
 
     //static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues){
-    static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues
+    static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues,
             unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON, unsigned char white_line=0){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
         for(int i=0; i<len(sensorValues); i++)
