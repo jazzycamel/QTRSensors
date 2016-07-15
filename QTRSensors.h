@@ -25,10 +25,18 @@ class QTRSensors {
 
     ~QTRSensors();
 
+    //
+    QTRSensors(unsigned char* pins, unsigned char numSensors,
+          unsigned int timeout=4000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
+
+    void init(unsigned char* pins, unsigned char numSensors,
+          unsigned int timeout=2000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
+    //
+
   protected:
 
-    QTRSensors(){};
-    void init(unsigned char *pins, unsigned char numSensors, unsigned char emitterPin);
+    //QTRSensors(){};
+    //void init(unsigned char *pins, unsigned char numSensors, unsigned char emitterPin);
 
     unsigned char *_pins;
     unsigned char _numSensors;
@@ -37,23 +45,27 @@ class QTRSensors {
     int _lastValue;
 
   private:
-    virtual void readPrivate(unsigned int *sensor_values){};
+    //virtual void readPrivate(unsigned int *sensor_values){};
     void calibrateOnOrOff(unsigned int **calibratedMinimum,
                           unsigned int **calibratedMaximum,
                           unsigned char readMode);
-};
 
-class QTRSensorsRC : public QTRSensors
-{
-  public:
-    QTRSensorsRC();
-    QTRSensorsRC(unsigned char* pins, unsigned char numSensors,
-          unsigned int timeout=4000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
-
-    void init(unsigned char* pins, unsigned char numSensors,
-          unsigned int timeout=2000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
-
-  private:
+    //
     void readPrivate(unsigned int *sensor_values);
+    //
 };
+
+// class QTRSensorsRC : public QTRSensors
+// {
+//   public:
+//     QTRSensorsRC();
+//     QTRSensorsRC(unsigned char* pins, unsigned char numSensors,
+//           unsigned int timeout=4000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
+
+//     void init(unsigned char* pins, unsigned char numSensors,
+//           unsigned int timeout=2000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
+
+//   private:
+//     void readPrivate(unsigned int *sensor_values);
+// };
 #endif

@@ -2,7 +2,12 @@
 #include <stdlib.h>
 #include "QTRSensors.h"
 
-void QTRSensors::init(unsigned char *pins, unsigned char numSensors, unsigned char emitterPin){
+void QTRSensors::init(unsigned char* pins, unsigned char numSensors, unsigned int timeout, unsigned char emitterPin){
+//     QTRSensors::init(pins, numSensors, emitterPin);
+    _maxValue=timeout;
+// }
+
+// void QTRSensors::init(unsigned char *pins, unsigned char numSensors, unsigned char emitterPin){
     calibratedMinimumOn=0;
     calibratedMaximumOn=0;
     calibratedMinimumOff=0;
@@ -192,15 +197,15 @@ int QTRSensors::readLine(unsigned int *sensor_values, unsigned char readMode, un
 
 
 // Derived RC class constructors
-QTRSensorsRC::QTRSensorsRC(){
-    calibratedMinimumOn=0;
-    calibratedMaximumOn=0;
-    calibratedMinimumOff=0;
-    calibratedMaximumOff=0;
-    _pins=0;
-}
+// QTRSensorsRC::QTRSensorsRC(){
+//     calibratedMinimumOn=0;
+//     calibratedMaximumOn=0;
+//     calibratedMinimumOff=0;
+//     calibratedMaximumOff=0;
+//     _pins=0;
+// }
 
-QTRSensorsRC::QTRSensorsRC(unsigned char* pins, unsigned char numSensors, unsigned int timeout, unsigned char emitterPin){
+QTRSensors::QTRSensors(unsigned char* pins, unsigned char numSensors, unsigned int timeout, unsigned char emitterPin){
     calibratedMinimumOn=0;
     calibratedMaximumOn=0;
     calibratedMinimumOff=0;
@@ -210,12 +215,12 @@ QTRSensorsRC::QTRSensorsRC(unsigned char* pins, unsigned char numSensors, unsign
     init(pins, numSensors, timeout, emitterPin);
 }
 
-void QTRSensorsRC::init(unsigned char* pins, unsigned char numSensors, unsigned int timeout, unsigned char emitterPin){
-    QTRSensors::init(pins, numSensors, emitterPin);
-    _maxValue=timeout;
-}
+// void QTRSensorsRC::init(unsigned char* pins, unsigned char numSensors, unsigned int timeout, unsigned char emitterPin){
+//     QTRSensors::init(pins, numSensors, emitterPin);
+//     _maxValue=timeout;
+// }
 
-void QTRSensorsRC::readPrivate(unsigned int *sensor_values){
+void QTRSensors::readPrivate(unsigned int *sensor_values){
     if (_pins==0) return;
 
     for(unsigned int i=0; i<_numSensors; i++){

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 echo "Compile C++ module"
 g++ -c QTRSensors.cpp
-
+exit
 echo "Compile C++ test"
 g++ -c qtrrc_test.cpp
 
