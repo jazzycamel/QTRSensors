@@ -31,7 +31,8 @@ public:
         return result;
     }
 
-    static void read(QTRSensorsRC &qtrrc, list sensorValues, unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
+    static void read(QTRSensorsRC &qtrrc, list sensorValues,
+            unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
         for(int i=0; i<len(sensorValues); i++)
             _sv[i]=extract<unsigned int>(sensorValues[i]);
@@ -42,7 +43,8 @@ public:
             sensorValues[i]=_sv[i];
     }
 
-    static void readCalibrated(QTRSensorsRC &qtrrc, list sensorValues, unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
+    static void readCalibrated(QTRSensorsRC &qtrrc, list sensorValues,
+            unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
         for(int i=0; i<len(sensorValues); i++)
             _sv[i]=extract<unsigned int>(sensorValues[i]);
@@ -57,6 +59,27 @@ public:
         list values;
         for(unsigned char i=0; i<qtrrc.numSensors(); i++)
             values.append(qtrrc.calibratedMinimumOn[i]);
+        return values;
+    }
+
+    static list calibratedMaximumOn(QTRSensorsRC& qtrrc){
+        list values;
+        for(unsigned char i=0; i<qtrrc.numSensors(); i++)
+            values.append(qtrrc.calibratedMaximumOn[i]);
+        return values;
+    }
+
+    static list calibratedMinimumOff(QTRSensorsRC& qtrrc){
+        list values;
+        for(unsigned char i=0; i<qtrrc.numSensors(); i++)
+            values.append(qtrrc.calibratedMinimumOff[i]);
+        return values;
+    }
+
+    static list calibratedMaximumOff(QTRSensorsRC& qtrrc){
+        list values;
+        for(unsigned char i=0; i<qtrrc.numSensors(); i++)
+            values.append(qtrrc.calibratedMaximumOff[i]);
         return values;
     }
 };
@@ -93,8 +116,11 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())        
         .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
 
-        //
+        // Getter Methods (wrap exposed array pointers)
         .def("calibratedMinimumOn", &WrapperFuncs::calibratedMinimumOn)
+        .def("calibratedMaximumOn", &WrapperFuncs::calibratedMaximumOn)
+        .def("calibratedMinimumOff", &WrapperFuncs::calibratedMinimumOff)
+        .def("calibratedMaximumOff", &WrapperFuncs::calibratedMaximumOff)
     ;
 
     enum_<QTRSensorsRC::QTR>
