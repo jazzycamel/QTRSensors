@@ -57,8 +57,8 @@ BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
     calibrate_overloads, QTRSensorsRC::calibrate, 0, 1
 )
 
-BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
-    read_overloads, WrapperFuncs::read, 1, 2
+BOOST_PYTHON_FUNCTION_OVERLOADS(
+    read_overloads, WrapperFuncs::read, 2, 3
 )
 
 BOOST_PYTHON_MODULE(QTRSensors){
