@@ -158,7 +158,19 @@ const char *emittersoffDocStr=""
 
 const char *resetCalibrationDocStr="Resets all calibration that has been done.\n";
 
-const char *readDocStr="";
+const char *readDocStr=""
+    "Reads the sensor values into a list.\n\n"
+    "Example usage:\n"
+    "\tsensor_values=[0,0,0,0,0,0,0,0]\n"
+    "\tsensors.read(sensor_values)\n\n"
+    "The values returned are a measure of the reflectance in abstract units,\n"
+    "with higher values corresponding to lower reflectance (e.g. a black\n"
+    "surface or a void).\n"
+    "If 'readMode' is QTRSensorsRC.QTR_EMITTERS_ON_AND_OFF, measures the values\n"
+    "with the emitters on AND off and returns on - (timeout - off). If this\n"
+    "value is less than zero, it returns zero.\n"
+    "This method will call readPrivate().\n"
+;
 
 const char *readCalibratedDocStr=""
     "Returns values calibrated to a value between 0 and 1000, where\n"
@@ -168,7 +180,53 @@ const char *readCalibratedDocStr=""
     "sensors are accounted for automatically.\n"
 ;
 
-const char *readLineDocStr="";
+const char *readLineDocStr=""
+    "Operates the same as read calibrated, but also returns an\n"
+    "estimated position of the robot with respect to a line. The\n"
+    "estimate is made using a weighted average of the sensor indices\n"
+    "multiplied by 1000, so that a return value of 0 indicates that\n"
+    "the line is directly below sensor 0, a return value of 1000\n"
+    "indicates that the line is directly below sensor 1, 2000\n"
+    "indicates that it's below sensor 2000, etc.  Intermediate\n"
+    "values indicate that the line is between two sensors.  The\n"
+    "formula is:\n\n"
+    
+    "   0*value0 + 1000*value1 + 2000*value2 + ...\n"
+    "  --------------------------------------------\n"
+    "        value0  +  value1  +  value2 + ...\n\n"
+    
+    "By default, this function assumes a dark line (high values)\n"
+    "surrounded by white (low values).  If your line is light on\n"
+    "black, set the optional third argument white_line to True.  In\n"
+    "this case, each sensor value will be replaced by (1000-value)\n"
+    "before the averaging.\n"
+;
+
+const char *calibratedMinimumDocStr=""
+    "Calibrated minumum values. These start at 1000 and\n"
+    "0, respectively, so that the very first sensor reading will\n"
+    "update both of them.\n\n"
+    
+    "The values are meaningless until calibrate() is called.\n"
+    "Depending on the readMode argument to calibrate, only the On or Off values may\n"
+    "be allocated, as required.\n\n"
+    
+    "These variables are made public so that you can use them for\n"
+    "your own calculations and do things like performing sanity checking, etc.\n"
+;
+
+const char *calibratedMaximumDocStr=""
+    "Calibrated maximum values. These start at 1000 and\n"
+    "0, respectively, so that the very first sensor reading will\n"
+    "update both of them.\n\n"
+    
+    "The values are meaningless until calibrate() is called.\n"
+    "Depending on the readMode argument to calibrate, only the On or Off values may\n"
+    "be allocated, as required.\n\n"
+    
+    "These variables are made public so that you can use them for\n"
+    "your own calculations and do things like performing sanity checking, etc.\n"
+;
 
 BOOST_PYTHON_MODULE(QTRSensors){
     scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
@@ -182,15 +240,15 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("resetCalibration", &QTRSensorsRC::resetCalibration, args("self"), resetCalibrationDocStr)
 
         // Wrapped methods
-        .def("read", &WrapperFuncs::read, read_overloads())
-        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads((arg("sensorValues"),arg("readeMode")=1), readCalibratedDocStr))
-        .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
+        .def("read", &WrapperFuncs::read, read_overloads((arg("sensorValues"),arg("readMode")=1), readDocStr)))
+        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads((arg("sensorValues"),arg("readMode")=1), readCalibratedDocStr))
+        .def("readLine", &WrapperFuncs::readLine, readLine_overloads((arg("sensorValues"),arg("readMode")=1,arg("white_line")=0), readLineDocStr))
 
         // Getter Methods (wrap exposed array pointers)
-        .def("calibratedMinimumOn", &WrapperFuncs::calibratedMinimumOn)
-        .def("calibratedMaximumOn", &WrapperFuncs::calibratedMaximumOn)
-        .def("calibratedMinimumOff", &WrapperFuncs::calibratedMinimumOff)
-        .def("calibratedMaximumOff", &WrapperFuncs::calibratedMaximumOff)
+        .def("calibratedMinimumOn", &WrapperFuncs::calibratedMinimumOn, calibratedMinimumDocStr)
+        .def("calibratedMaximumOn", &WrapperFuncs::calibratedMaximumOn, calibratedMaximumDocStr)
+        .def("calibratedMinimumOff", &WrapperFuncs::calibratedMinimumOff, calibratedMinimumDocStr)
+        .def("calibratedMaximumOff", &WrapperFuncs::calibratedMaximumOff, calibratedMaximumDocStr)
     ;
 
     enum_<QTRSensorsRC::QTR>
