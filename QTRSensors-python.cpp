@@ -26,7 +26,6 @@ public:
         for(int i=0; i<qtrrc.numSensors(); i++)
             sensorValues.append(_sv[i]);
         return make_tuple(position, sensorValues);
-
     }
 
     static list read(QTRSensorsRC &qtrrc, unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
