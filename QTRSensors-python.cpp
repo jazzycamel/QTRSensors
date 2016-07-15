@@ -100,9 +100,20 @@ BOOST_PYTHON_FUNCTION_OVERLOADS(
     readLine_overloads, WrapperFuncs::readLine, 2, 4
 )
 
+const char* classDocStr=""
+    "QTRSensors - Library for using Pololu QTR reflectance "
+    "sensors and reflectance sensor arrays: QTR-1RC and "
+    "QTR-8RC. Simply specify in the constructor which "
+    "Raspberry Pi pins are connected to a QTR sensor, and the read() method "
+    "will obtain reflectance measurements for those sensors.  Smaller sensor "
+    "values correspond to higher reflectance (e.g. white) while larger "
+    "sensor values correspond to lower reflectance (e.g. black or a void). "
+    "* QTRSensorsRC should be used for QTR-1RC and QTR-8RC sensors.    "
+;
+
 BOOST_PYTHON_MODULE(QTRSensors){
     scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
-        ("QTRSensorsRC", no_init)
+        ("QTRSensorsRC", classDocStr, no_init)
         .def("__init__", make_constructor(WrapperFuncs::init))
 
         // 'Normal' methods
