@@ -101,20 +101,41 @@ BOOST_PYTHON_FUNCTION_OVERLOADS(
 )
 
 const char* classDocStr=""
-    "QTRSensors - Library for using Pololu QTR reflectance "
-    "sensors and reflectance sensor arrays: QTR-1RC and "
-    "QTR-8RC. Simply specify in the constructor which "
-    "Raspberry Pi pins are connected to a QTR sensor, and the read() method "
-    "will obtain reflectance measurements for those sensors.  Smaller sensor "
-    "values correspond to higher reflectance (e.g. white) while larger "
-    "sensor values correspond to lower reflectance (e.g. black or a void). "
-    "* QTRSensorsRC should be used for QTR-1RC and QTR-8RC sensors.    "
+    "QTRSensors - Library for using Pololu QTR reflectance\n"
+    "sensors and reflectance sensor arrays: QTR-1RC and\n"
+    "QTR-8RC. Simply specify in the constructor which\n"
+    "Raspberry Pi pins are connected to a QTR sensor, and the read() method\n"
+    "will obtain reflectance measurements for those sensors.  Smaller sensor\n"
+    "values correspond to higher reflectance (e.g. white) while larger\n"
+    "sensor values correspond to lower reflectance (e.g. black or a void).\n\n"
+    "* QTRSensorsRC should be used for QTR-1RC and QTR-8RC sensors.\n"
+;
+
+const char * initDocStr=""
+    "The list 'pins' contains the Raspberry Pi pin number for each sensor.\n"
+    "This library uses the pin number convention defined by WiringPi which \n"
+    "can be found at http://wiringpi.com/pins/.\n\n"
+
+    "'timeout' specifies the length of time in microseconds beyond\n"
+    "which you consider the sensor reading completely black.  That is to say,\n"
+    "if the pulse length for a pin exceeds 'timeout', pulse timing will stop\n"
+    "and the reading for that pin will be considered full black.\n"
+    "It is recommended that you set timeout to be between 1000 and\n"
+    "3000 us, depending on things like the height of your sensors and\n"
+    "ambient lighting.  Using timeout allows you to shorten the\n"
+    "duration of a sensor-reading cycle while still maintaining\n"
+    "useful analog measurements of reflectance.\n\n"
+
+    "'emitterPin' is the Raspberry Pi pin that controls the IR LEDs on the 8RC\n"
+    "modules.  If you are using a 1RC (i.e. if there is no emitter pin),\n"
+    "or if you just want the emitters on all the time and don't want to\n"
+    "use an I/O pin to control it, use a value of 255 (QTR_NO_EMITTER_PIN).\n"
 ;
 
 BOOST_PYTHON_MODULE(QTRSensors){
     scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", classDocStr, no_init)
-        .def("__init__", make_constructor(WrapperFuncs::init))
+        .def("__init__", make_constructor(WrapperFuncs::init), initDocStr)
 
         // 'Normal' methods
         .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads())
