@@ -240,7 +240,7 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("resetCalibration", &QTRSensorsRC::resetCalibration, args("self"), resetCalibrationDocStr)
 
         // Wrapped methods
-        .def("read", &WrapperFuncs::read, read_overloads((arg("sensorValues"),arg("readMode")=1), readDocStr)))
+        .def("read", &WrapperFuncs::read, read_overloads((arg("sensorValues"),arg("readMode")=1), readDocStr))
         .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads((arg("sensorValues"),arg("readMode")=1), readCalibratedDocStr))
         .def("readLine", &WrapperFuncs::readLine, readLine_overloads((arg("sensorValues"),arg("readMode")=1,arg("white_line")=0), readLineDocStr))
 
