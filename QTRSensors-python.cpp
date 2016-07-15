@@ -30,12 +30,12 @@ public:
 
     }
 
-    static list read(QTRSensorsRC &qtrrc unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
+    static list read(QTRSensorsRC &qtrrc, unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
         qtrrc.read(_sv, readMode);
 
         list sensorValues;
-        for(int i=0; i<len(sensorValues); i++)
+        for(int i=0; i<qtrrc.numSensors(); i++)
             sensorValues.append(_sv[i]);
 
         return sensorValues;
@@ -46,7 +46,7 @@ public:
         qtrrc.readCalibrated(_sv, readMode);
 
         list sensorValues;
-        for(int i=0; i<len(sensorValues); i++)
+        for(int i=0; i<qtrrc.numSensors(); i++)
             sensorValues.append(_sv[i]);
 
         return sensorValues;
@@ -86,15 +86,15 @@ BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
 )
 
 BOOST_PYTHON_FUNCTION_OVERLOADS(
-    read_overloads, WrapperFuncs::read, 2, 3
+    read_overloads, WrapperFuncs::read, 1, 2
 )
 
 BOOST_PYTHON_FUNCTION_OVERLOADS(
-    readCalibrated_overloads, WrapperFuncs::readCalibrated, 2, 3
+    readCalibrated_overloads, WrapperFuncs::readCalibrated, 1, 2
 )
 
 BOOST_PYTHON_FUNCTION_OVERLOADS(
-    readLine_overloads, WrapperFuncs::readLine, 1, 3 
+    readLine_overloads, WrapperFuncs::readLine, 1, 3
 )
 
 const char *classDocStr=""
