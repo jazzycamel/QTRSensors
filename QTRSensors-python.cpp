@@ -142,19 +142,18 @@ const char *calibrateDocStr=""
 BOOST_PYTHON_MODULE(QTRSensors){
     scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", classDocStr, no_init)
-        .def("__init__", make_constructor(WrapperFuncs::init), initDocStr,
-                args("self", "_pins", "timeout", "emitterPin"))
+        .def("__init__", make_constructor(WrapperFuncs::init, default_call_policies(), args("_pins","timeout","emitterPin")), initDocStr)//,
+                //args("self", "_pins", "timeout", "emitterPin"))
 
         // 'Normal' methods
-        .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads(calibrateDocStr),
-                (arg("readMode")=QTRSensorsRC::QTR_EMITTERS_ON))
+        .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads((arg("self"),arg("readeMode")=1), calibrateDocStr))
         .def("emittersOff", &QTRSensorsRC::emittersOff)
         .def("emittersOn", &QTRSensorsRC::emittersOn)
         .def("resetCalibration", &QTRSensorsRC::resetCalibration)
 
         // Wrapped methods
         .def("read", &WrapperFuncs::read, read_overloads())
-        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())        
+        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())
         .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
 
         // Getter Methods (wrap exposed array pointers)
