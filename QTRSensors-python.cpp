@@ -18,18 +18,6 @@ public:
         );
     }
 
-    // static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues,
-    //         unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON, unsigned char white_line=0){
-    //     unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
-    //     for(int i=0; i<len(sensorValues); i++)
-    //         _sv[i]=extract<unsigned int>(sensorValues[i]);
-
-    //     int result=qtrrc.readLine(_sv, readMode, white_line);
-
-    //     for(int i=0; i<len(sensorValues); i++)
-    //         sensorValues[i]=_sv[i];
-    //     return result;
-    // }
     static tuple readLine(QTRSensorsRC &qtrrc, unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON, unsigned char white_line=0){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
         int position=qtrrc.readLine(_sv, readMode, white_line);
@@ -42,28 +30,26 @@ public:
 
     }
 
-    static void read(QTRSensorsRC &qtrrc, list sensorValues,
-            unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
+    static list read(QTRSensorsRC &qtrrc unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
-        for(int i=0; i<len(sensorValues); i++)
-            _sv[i]=extract<unsigned int>(sensorValues[i]);
-
         qtrrc.read(_sv, readMode);
 
+        list sensorValues;
         for(int i=0; i<len(sensorValues); i++)
-            sensorValues[i]=_sv[i];
+            sensorValues.append(_sv[i]);
+
+        return sensorValues;
     }
 
-    static void readCalibrated(QTRSensorsRC &qtrrc, list sensorValues,
-            unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
+    static list readCalibrated(QTRSensorsRC &qtrrc, unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
-        for(int i=0; i<len(sensorValues); i++)
-            _sv[i]=extract<unsigned int>(sensorValues[i]);
-
         qtrrc.readCalibrated(_sv, readMode);
 
+        list sensorValues;
         for(int i=0; i<len(sensorValues); i++)
-            sensorValues[i]=_sv[i];
+            sensorValues.append(_sv[i]);
+
+        return sensorValues;
     }
 
     static list calibratedMinimumOn(QTRSensorsRC& qtrrc){
@@ -170,10 +156,9 @@ const char *emittersoffDocStr=""
 const char *resetCalibrationDocStr="Resets all calibration that has been done.\n";
 
 const char *readDocStr=""
-    "Reads the sensor values into a list.\n\n"
+    "Reads the sensor values and returns a list.\n\n"
     "Example usage:\n"
-    "\tsensor_values=[0,0,0,0,0,0,0,0]\n"
-    "\tsensors.read(sensor_values)\n\n"
+    "\tsensorValues=sensors.read()\n\n"
     "The values returned are a measure of the reflectance in abstract units,\n"
     "with higher values corresponding to lower reflectance (e.g. a black\n"
     "surface or a void).\n"
@@ -251,10 +236,9 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("resetCalibration", &QTRSensorsRC::resetCalibration, args("self"), resetCalibrationDocStr)
 
         // Wrapped methods
-        .def("read", &WrapperFuncs::read, read_overloads((arg("sensorValues"),arg("readMode")=1), readDocStr))
-        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads((arg("sensorValues"),arg("readMode")=1), readCalibratedDocStr))
-        //.def("readLine", &WrapperFuncs::readLine, readLine_overloads((arg("sensorValues"),arg("readMode")=1,arg("white_line")=0), readLineDocStr))
-        .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
+        .def("read", &WrapperFuncs::read, read_overloads((arg("readMode")=1), readDocStr))
+        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads((arg("readMode")=1), readCalibratedDocStr))
+        .def("readLine", &WrapperFuncs::readLine, readLine_overloads((arg("readMode")=1,arg("white_line")=0), readLineDocStr))
 
         // Getter Methods (wrap exposed array pointers)
         .def("calibratedMinimumOn", &WrapperFuncs::calibratedMinimumOn, calibratedMinimumDocStr)
