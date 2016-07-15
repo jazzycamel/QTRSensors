@@ -85,12 +85,15 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("read", &WrapperFuncs::read, read_overloads())
         .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())        
         .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
+    ;
 
-        // Enum values
-        .def_readonly("QTR_EMITTERS_OFF", QTRSensorsRC::QTR_EMITTERS_OFF)
-        .def_readonly("QTR_EMITTERS_ON", QTRSensorsRC::QTR_EMITTERS_ON)
-        .def_readonly("QTR_EMITTERS_ON_AND_OFF", QTRSensorsRC::QTR_EMITTERS_ON_AND_OFF)
-        .def_readonly("QTR_NO_EMITTER_PIN", QTRSensorsRC::QTR_NO_EMITTER_PIN)
-        .def_readonly("QTR_MAX_SENSORS", QTRSensorsRC::QTR_MAX_SENSORS)
+    enum_<QTRSensorsRC::QTR>
+        ("QTR")
+        .value("QTR_EMITTERS_OFF", QTRSensorsRC::QTR_EMITTERS_OFF)
+        .value("QTR_EMITTERS_ON", QTRSensorsRC::QTR_EMITTERS_ON)
+        .value("QTR_EMITTERS_ON_AND_OFF", QTRSensorsRC::QTR_EMITTERS_ON_AND_OFF)
+        .value("QTR_NO_EMITTER_PIN", QTRSensorsRC::QTR_NO_EMITTER_PIN)
+        .value("QTR_MAX_SENSORS", QTRSensorsRC::QTR_MAX_SENSORS)
+        .export_values()
     ;
 }

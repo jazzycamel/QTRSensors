@@ -3,7 +3,7 @@
 
 class QTRSensorsRC {
 public:
-    enum {
+    enum QTR {
       QTR_EMITTERS_OFF=0,
       QTR_EMITTERS_ON=1,
       QTR_EMITTERS_ON_AND_OFF=2,
