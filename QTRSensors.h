@@ -1,7 +1,7 @@
 #ifndef QTRSensors_h
 #define QTRSensors_h
 
-class QTRSensors {
+class QTRSensorsRC {
   public:
     enum {
       QTR_EMITTERS_OFF=0,
@@ -11,9 +11,9 @@ class QTRSensors {
       QTR_MAX_SENSORS=16,
     };
 
-    QTRSensors(unsigned char* pins, unsigned char numSensors,
+    QTRSensorsRC(unsigned char* pins, unsigned char numSensors,
           unsigned int timeout=4000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
-    ~QTRSensors();
+    ~QTRSensorsRC();
 
     void init(unsigned char* pins, unsigned char numSensors,
           unsigned int timeout=2000, unsigned char emitterPin=QTR_NO_EMITTER_PIN);
@@ -25,7 +25,7 @@ class QTRSensors {
     void readCalibrated(unsigned int *sensor_values, unsigned char readMode=QTR_EMITTERS_ON);
     int readLine(unsigned int *sensor_values, 
           unsigned char readMode=QTR_EMITTERS_ON, unsigned char white_line=0);
-    
+
     unsigned int *calibratedMinimumOn;
     unsigned int *calibratedMaximumOn;
     unsigned int *calibratedMinimumOff;
