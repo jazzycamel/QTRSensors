@@ -1,9 +1,9 @@
+#include <wiringPi.h>
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 using namespace boost::python;
 
 #include "QTRSensors.h"
-#include <wiringPi.h>
 
 class WrapperFuncs{
 public:
@@ -18,7 +18,6 @@ public:
         );
     }
 
-    //static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues){
     static unsigned int readLine(QTRSensorsRC &qtrrc, list sensorValues,
             unsigned char readMode=QTRSensorsRC::QTR_EMITTERS_ON, unsigned char white_line=0){
         unsigned int _sv[QTRSensorsRC::QTR_MAX_SENSORS];
@@ -73,8 +72,8 @@ BOOST_PYTHON_FUNCTION_OVERLOADS(
 
 BOOST_PYTHON_MODULE(QTRSensors){
     class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
-       ("QTRSensorsRC", no_init)
-       .def("__init__", make_constructor(WrapperFuncs::init))
+        ("QTRSensorsRC", no_init)
+        .def("__init__", make_constructor(WrapperFuncs::init))
 
         // 'Normal' methods
         .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads())
@@ -86,5 +85,12 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("read", &WrapperFuncs::read, read_overloads())
         .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())        
         .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
+
+        // Enum values
+        .def_readonly("QTR_EMITTERS_OFF", QTRSensorsRC::QTR_EMITTERS_OFF)
+        .def_readonly("QTR_EMITTERS_ON", QTRSensorsRC::QTR_EMITTERS_ON)
+        .def_readonly("QTR_EMITTERS_ON_AND_OFF", QTRSensorsRC::QTR_EMITTERS_ON_AND_OFF)
+        .def_readonly("QTR_NO_EMITTER_PIN", QTRSensorsRC::QTR_NO_EMITTER_PIN)
+        .def_readonly("QTR_MAX_SENSORS", QTRSensorsRC::QTR_MAX_SENSORS)
     ;
 }
