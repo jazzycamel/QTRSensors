@@ -136,20 +136,38 @@ const char *calibrateDocStr=""
     "Reads the sensors for calibration.  The sensor values are\n"
     "not returned; instead, the maximum and minimum values found\n"
     "over time are stored internally and used for the\n"
-    "readCalibrated() method.\n"
+    "readCalibrated() method.\n\n"
+    "'readMode' determines if the IR LEDs should be on\n"
+    "(QTRSensorsRC.QTR_EMITTERS_ON, default) during calibration or off\n"
+    "(QTRSensorsRC.QTR_EMITTERS_OFF)."
 ;
+
+const char *emittersOnDocStr=""
+    "Turn the IR LEDs on. This is mainly for use by the\n"
+    "read method, and calling this function before or\n"
+    "after reading the sensors will have no effect on the\n"
+    "readings, but you may wish to use it for testing purposes.\n"
+;
+
+const char *emittersoffDocStr=""
+    "Turn the IR LEDs off. This is mainly for use by the\n"
+    "read method, and calling this function before or\n"
+    "after reading the sensors will have no effect on the\n"
+    "readings, but you may wish to use it for testing purposes.\n"
+;
+
+const char *resetCalibrationDocStr="Resets all calibration that has been done.\n";
 
 BOOST_PYTHON_MODULE(QTRSensors){
     scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", classDocStr, no_init)
-        .def("__init__", make_constructor(WrapperFuncs::init, default_call_policies(), args("_pins","timeout","emitterPin")), initDocStr)//,
-                //args("self", "_pins", "timeout", "emitterPin"))
+        .def("__init__", make_constructor(WrapperFuncs::init, default_call_policies(), args("_pins","timeout","emitterPin")), initDocStr)
 
         // 'Normal' methods
         .def("calibrate", &QTRSensorsRC::calibrate, calibrate_overloads((arg("self"),arg("readeMode")=1), calibrateDocStr))
-        .def("emittersOff", &QTRSensorsRC::emittersOff)
-        .def("emittersOn", &QTRSensorsRC::emittersOn)
-        .def("resetCalibration", &QTRSensorsRC::resetCalibration)
+        .def("emittersOff", &QTRSensorsRC::emittersOff, args("self"), emittersoffDocStr)
+        .def("emittersOn", &QTRSensorsRC::emittersOn, args("self"), emittersOnDocStr)
+        .def("resetCalibration", &QTRSensorsRC::resetCalibration, args("self"), resetCalibrationDocStr)
 
         // Wrapped methods
         .def("read", &WrapperFuncs::read, read_overloads())
