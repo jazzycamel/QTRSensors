@@ -57,10 +57,11 @@ BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
     calibrate_overloads, QTRSensorsRC::calibrate, 0, 1
 )
 
-BOOST_PYTHON_MODULE(QTRSensors){
-    //class_<QTRSensors>
-    //    ("QTRSensors", no_init)
+BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(
+    read_overloads, WrapperFuncs::read, 1, 2
+)
 
+BOOST_PYTHON_MODULE(QTRSensors){
     class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
        ("QTRSensorsRC", no_init)
        .def("__init__", make_constructor(WrapperFuncs::init))
@@ -71,12 +72,9 @@ BOOST_PYTHON_MODULE(QTRSensors){
         .def("emittersOn", &QTRSensorsRC::emittersOn)
         .def("resetCalibration", &QTRSensorsRC::resetCalibration)
 
-    //class_<QTRSensorsRC, bases<QTRSensors>, boost::shared_ptr<QTRSensorsRC> >
-    //    ("QTRSensorsRC", no_init)
-    //    .def("__init__", make_constructor(WrapperFuncs::init))
-
         // Wrapped methods
-        .def("read", &WrapperFuncs::read)
+        //.def("read", &WrapperFuncs::read)
+        .def("read", &WrapperFuncs::read, read_overloads())
         .def("readCalibrated", &WrapperFuncs::readCalibrated)        
         .def("readLine", &WrapperFuncs::readLine)
     ;
