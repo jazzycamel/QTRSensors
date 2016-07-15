@@ -1,13 +1,13 @@
 #!/bin/bash -e
 echo "Compile C++ module"
 g++ -c QTRSensors.cpp
-exit
+
 echo "Compile C++ test"
 g++ -c qtrrc_test.cpp
 
 echo "Link C++ test"
 g++ -o qtrrc_test qtrrc_test.o QTRSensors.o -lwiringPi
-
+exit
 echo "Compile python module..."
 g++ -c -O3 QTRSensors-python.cpp -I/usr/include/python2.7 -I/usr/include -fPIC
 
