@@ -55,9 +55,9 @@ public:
 
     static list calibratedMinimumOn(QTRSensorsRC& qtrrc){
         list values;
-        for(int i=0; i<qtrrc._numSensors; i++)
-            list.append(qtrrc.calibratedMinimumOn[i]);
-        return result
+        for(unsigned char i=0; i<qtrrc.numSensors(); i++)
+            values.append(qtrrc.calibratedMinimumOn[i]);
+        return values
     }
 };
 

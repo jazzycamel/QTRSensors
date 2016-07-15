@@ -25,6 +25,7 @@ public:
     void readCalibrated(unsigned int *sensor_values, unsigned char readMode=QTR_EMITTERS_ON);
     int readLine(unsigned int *sensor_values, 
         unsigned char readMode=QTR_EMITTERS_ON, unsigned char white_line=0);
+    unsigned char numSensors(){ return _numSensors; }
 
     unsigned int *calibratedMinimumOn;
     unsigned int *calibratedMaximumOn;
