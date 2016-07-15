@@ -158,6 +158,18 @@ const char *emittersoffDocStr=""
 
 const char *resetCalibrationDocStr="Resets all calibration that has been done.\n";
 
+const char *readDocStr="";
+
+const char *readCalibratedDocStr=""
+    "Returns values calibrated to a value between 0 and 1000, where\n"
+    "0 corresponds to the minimum value read by calibrate() and 1000\n"
+    "corresponds to the maximum value.  Calibration values are\n"
+    "stored separately for each sensor, so that differences in the\n"
+    "sensors are accounted for automatically.\n"
+;
+
+const char *readLineDocStr="";
+
 BOOST_PYTHON_MODULE(QTRSensors){
     scope the_scope=class_<QTRSensorsRC, boost::shared_ptr<QTRSensorsRC> >
         ("QTRSensorsRC", classDocStr, no_init)
@@ -171,7 +183,7 @@ BOOST_PYTHON_MODULE(QTRSensors){
 
         // Wrapped methods
         .def("read", &WrapperFuncs::read, read_overloads())
-        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads())
+        .def("readCalibrated", &WrapperFuncs::readCalibrated, readCalibrated_overloads((arg("sensorValues"),arg("readeMode")=1), readCalibratedDocStr))
         .def("readLine", &WrapperFuncs::readLine, readLine_overloads())
 
         // Getter Methods (wrap exposed array pointers)
